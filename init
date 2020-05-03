@@ -7,6 +7,6 @@ cd "$(dirname $0)"
 apk add git build-base perl xz-dev coreutils
 git clone git://git.ipxe.org/ipxe.git
 
-cd certs
+cd trust
 wget https://git.alpinelinux.org/aports/plain/main/alpine-ipxe/alpine-netboot-ca.crt
 wget https://git.alpinelinux.org/aports/plain/main/alpine-ipxe/DST_Root_CA_X3.pem
