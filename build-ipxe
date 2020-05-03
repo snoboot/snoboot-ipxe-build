@@ -1,0 +1,12 @@
+#!/bin/sh
+
+cd "$(dirname $0)"
+RELEASE_PATH="$(pwd)"
+
+CERT=$(echo $(find "$(pwd)"/cert/*.pem "$(pwd)"/cert/*.crt 2>/dev/null) | tr ' ' ',')
+TRUST=$(echo $(find "$(pwd)"/trust/*.pem "$(pwd)"/trust/*.crt 2>/dev/null) | tr ' ' ',')
+
+echo CERT="$CERT"
+echo TRUST="$TRUST"
+
+( cd ipxe/src ; make CERT="$CERT" TRUST="$TRUST" bin/ipxe.lkrn && cp bin/ipxe.lkrn "$RELEASE_PATH")
