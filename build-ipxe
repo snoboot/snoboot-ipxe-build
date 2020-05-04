@@ -3,7 +3,7 @@
 cd "$(dirname $0)"
 RELEASE_PATH="$(pwd)"
 
-TRUST=$(echo $(find "$(pwd)"/trust/*.pem "$(pwd)"/trust/*.crt 2>/dev/null) | tr ' ' ',')
+TRUST=$(echo $(find "$(pwd)"/trust/*.pem "$(pwd)"/trust/*.cer "$(pwd)"/trust/*.crt 2>/dev/null) | tr ' ' ',')
 echo TRUST="$TRUST"
 
 ( cd ipxe/src ; make CERT="$TRUST" TRUST="$TRUST" bin/ipxe.lkrn && cp bin/ipxe.lkrn "$RELEASE_PATH")
