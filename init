@@ -10,5 +10,6 @@ git clone git://git.ipxe.org/ipxe.git
 cp local-config.h ipxe/src/config/local/general.h
 
 cd trust
+wget -O ipxe-root-ca.crt https://ipxe.org/_media/certs/ca.crt
 wget https://git.alpinelinux.org/aports/plain/main/alpine-ipxe/alpine-netboot-ca.crt
 wget https://git.alpinelinux.org/aports/plain/main/alpine-ipxe/DST_Root_CA_X3.pem
