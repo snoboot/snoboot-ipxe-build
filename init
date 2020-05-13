@@ -5,9 +5,11 @@
 
 cd "$(dirname $0)"
 apk add git build-base perl xz-dev coreutils
-git clone git://git.ipxe.org/ipxe.git
 
-cp local-config.h ipxe/src/config/local/general.h
+git submodule init
+git submodule update
+
+ln -sf ../../../../local-config.h ipxe/src/config/local/general.h
 
 cd trust
 wget -O ipxe-root-ca.crt https://ipxe.org/_media/certs/ca.crt
