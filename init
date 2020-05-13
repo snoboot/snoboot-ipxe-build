@@ -4,10 +4,14 @@
 #
 
 cd "$(dirname $0)"
-apk add git build-base perl xz-dev coreutils
+apk add \
+	git build-base perl xz-dev coreutils \
+	bash cdrkit syslinux
 
 git submodule init
 git submodule update
+
+( cd ipxe ; ln -s /usr/share/syslinux/isolinux.bin . )
 
 ln -sf ../../../../local-config.h ipxe/src/config/local/general.h
 

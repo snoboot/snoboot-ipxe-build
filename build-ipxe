@@ -4,6 +4,6 @@ cd "$(dirname $0)"
 RELEASE_PATH="$(pwd)"
 
 TRUST=$(echo $(find "$(pwd)"/trust/*.pem "$(pwd)"/trust/*.cer "$(pwd)"/trust/*.crt 2>/dev/null) | tr ' ' ',')
-echo TRUST="$TRUST"
 
-( cd ipxe/src ; make CERT="$TRUST" TRUST="$TRUST" bin/ipxe.lkrn && cp bin/ipxe.lkrn "$RELEASE_PATH")
+( cd ipxe/src ; make CERT="$TRUST" TRUST="$TRUST" bin/ipxe.lkrn && cp bin/ipxe.lkrn "$RELEASE_PATH"/)
+( cd ipxe/src ; make EMBED="$RELEASE_PATH/default.ipxe" CERT="$TRUST" TRUST="$TRUST" bin/ipxe.iso && cp bin/ipxe.iso "$RELEASE_PATH"/)

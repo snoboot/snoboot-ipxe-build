@@ -1,0 +1,2 @@
+#!ipxe
+ifconf && chain https://raw.githubusercontent.com/snoboot/snoboot-static/master/boot/boot.ipxe
