@@ -3,7 +3,30 @@
 cd "$(dirname $0)"
 RELEASE_PATH="$(pwd)"
 
+embeddedScript="default"
+
 TRUST=$(echo $(find "$(pwd)"/trust/*.pem "$(pwd)"/trust/*.cer "$(pwd)"/trust/*.crt 2>/dev/null) | tr ' ' ',')
 
-( cd ipxe/src ; make CERT="$TRUST" TRUST="$TRUST" bin/ipxe.lkrn && cp bin/ipxe.lkrn "$RELEASE_PATH"/)
-( cd ipxe/src ; make EMBED="$RELEASE_PATH/default.ipxe" CERT="$TRUST" TRUST="$TRUST" bin/ipxe.iso && cp bin/ipxe.iso "$RELEASE_PATH"/)
+machineType=$(uname -m)
+bin=bin
+buildLkrn=
+buildIso=
+buildUsb=
+case "$machineType" in
+  x86_64)
+    bin=bin
+    buildLkrn=1
+    buildIso=1
+    ;;
+  aarch64)
+    bin=bin-arm64-efi
+    buildUsb=1
+    ;;
+  *)
+    echo "Unknown machine type: $machineType" >&2
+    exit 1
+esac
+
+[ -n "$buildLkrn" ] && ( cd ipxe/src ; make CERT="$TRUST" TRUST="$TRUST" $bin/ipxe.lkrn && cp $bin/ipxe.lkrn "$RELEASE_PATH"/ipxe-${machineType}.lkrn )
+[ -n "$buildIso" ] && ( cd ipxe/src ; make EMBED="$RELEASE_PATH/${embeddedScript}.ipxe" CERT="$TRUST" TRUST="$TRUST" $bin/ipxe.iso && cp $bin/ipxe.iso "$RELEASE_PATH"/ipxe-${machineType}.iso )
+[ -n "$buildUsb" ] && ( cd ipxe/src ; make EMBED="$RELEASE_PATH/${embeddedScript}.ipxe" CERT="$TRUST" TRUST="$TRUST" $bin/ipxe.usb && cp $bin/ipxe.usb "$RELEASE_PATH"/ipxe-${machineType}.usb )

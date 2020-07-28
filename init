@@ -6,7 +6,8 @@
 cd "$(dirname $0)"
 apk add \
 	git build-base perl xz-dev coreutils \
-	bash cdrkit syslinux
+	bash cdrkit mtools
+apk add syslinux
 
 git submodule init
 git submodule update
