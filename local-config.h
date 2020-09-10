@@ -15,6 +15,8 @@
 #define VLAN_CMD
 #define CERT_CMD
 
+#define AUTOBOOT_DISABLE_ANSI 1
+
 // Disable OCSP_CHECK for Let's encrypt (from alpine-ipxe)
 
 #undef OCSP_CHECK

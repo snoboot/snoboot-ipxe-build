@@ -4,15 +4,15 @@
 #
 
 cd "$(dirname $0)"
-apk add \
+sudo apk add \
 	git build-base perl xz-dev coreutils \
 	bash cdrkit mtools
-apk add syslinux
+sudo apk add syslinux >/dev/null 2>&1
 
 git submodule init
 git submodule update
 
-( cd ipxe ; ln -s /usr/share/syslinux/isolinux.bin . )
+( cd ipxe ; ln -sf /usr/share/syslinux/isolinux.bin . )
 
 ln -sf ../../../../local-config.h ipxe/src/config/local/general.h
 
