@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 cd "$(dirname $0)"
 RELEASE_PATH="$(pwd)"
 
@@ -34,3 +36,5 @@ esac
 [ -n "$buildUsb" ] && ( cd ipxe/src ; make EMBED="$RELEASE_PATH/${embeddedScript}.ipxe" CERT="$TRUST" TRUST="$TRUST" $bin/ipxe.usb && cp $bin/ipxe.usb "$RELEASE_PATH"/ipxe-${machineType}.usb )
 [ -n "$buildEfi" ] && ( cd ipxe/src ; make EMBED="$RELEASE_PATH/${embeddedScript}.ipxe" CERT="$TRUST" TRUST="$TRUST" $bin/ipxe.efi && cp $bin/ipxe.efi "$RELEASE_PATH"/ipxe-${machineType}.efi )
 [ -n "$buildEfi" ] && ( cd ipxe/src ; make EMBED="$RELEASE_PATH/${embeddedScript}.ipxe" CERT="$TRUST" TRUST="$TRUST" $bin/snp.efi && cp $bin/snp.efi "$RELEASE_PATH"/snp-${machineType}.efi )
+
+echo "DONE!"
