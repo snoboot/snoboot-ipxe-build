@@ -4,6 +4,7 @@ cd "$(dirname $0)"
 RELEASE_PATH="$(pwd)"
 
 embeddedScript="default"
+embeddedScript="testing"
 
 TRUST=$(echo $(find "$(pwd)"/trust/*.pem "$(pwd)"/trust/*.cer "$(pwd)"/trust/*.crt 2>/dev/null) | tr ' ' ',')
 
@@ -12,6 +13,7 @@ bin=bin
 buildLkrn=
 buildIso=
 buildUsb=
+buildEfi=1
 case "$machineType" in
   x86_64)
     bin=bin
@@ -30,3 +32,5 @@ esac
 [ -n "$buildLkrn" ] && ( cd ipxe/src ; make CERT="$TRUST" TRUST="$TRUST" $bin/ipxe.lkrn && cp $bin/ipxe.lkrn "$RELEASE_PATH"/ipxe-${machineType}.lkrn )
 [ -n "$buildIso" ] && ( cd ipxe/src ; make EMBED="$RELEASE_PATH/${embeddedScript}.ipxe" CERT="$TRUST" TRUST="$TRUST" $bin/ipxe.iso && cp $bin/ipxe.iso "$RELEASE_PATH"/ipxe-${machineType}.iso )
 [ -n "$buildUsb" ] && ( cd ipxe/src ; make EMBED="$RELEASE_PATH/${embeddedScript}.ipxe" CERT="$TRUST" TRUST="$TRUST" $bin/ipxe.usb && cp $bin/ipxe.usb "$RELEASE_PATH"/ipxe-${machineType}.usb )
+[ -n "$buildEfi" ] && ( cd ipxe/src ; make EMBED="$RELEASE_PATH/${embeddedScript}.ipxe" CERT="$TRUST" TRUST="$TRUST" $bin/ipxe.efi && cp $bin/ipxe.efi "$RELEASE_PATH"/ipxe-${machineType}.efi )
+[ -n "$buildEfi" ] && ( cd ipxe/src ; make EMBED="$RELEASE_PATH/${embeddedScript}.ipxe" CERT="$TRUST" TRUST="$TRUST" $bin/snp.efi && cp $bin/snp.efi "$RELEASE_PATH"/snp-${machineType}.efi )
