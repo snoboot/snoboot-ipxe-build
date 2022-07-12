@@ -1,0 +1,50 @@
+From b205866d1dc14de3c693da22d451ff0fda750041 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Christian=20Kohlsch=C3=BCtter?= <christian@kohlschutter.com>
+Date: Tue, 12 Jul 2022 11:55:28 +0000
+Subject: [PATCH 2/2] Disable ANSI colors at boot
+
+---
+ src/config/general.h |  3 +++
+ src/usr/autoboot.c   | 12 +++++++++---
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/src/config/general.h b/src/config/general.h
+index 2d15f500..55f58629 100644
+--- a/src/config/general.h
++++ b/src/config/general.h
+@@ -11,6 +11,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
+ 
+ #include <config/defaults.h>
+ 
++// Disable ANSI colors at boot (interferes with TTL serial console)
++//#define AUTOBOOT_DISABLE_ANSI 1
++
+ /*
+  * Banner timeout configuration
+  *
+diff --git a/src/usr/autoboot.c b/src/usr/autoboot.c
+index 24043ae6..c7005916 100644
+--- a/src/usr/autoboot.c
++++ b/src/usr/autoboot.c
+@@ -68,9 +68,15 @@ static int ( * is_autoboot_device ) ( struct net_device *netdev );
+ #define EINFO_ENOENT_BOOT \
+ 	__einfo_uniqify ( EINFO_ENOENT, 0x01, "Nothing to boot" )
+ 
+-#define NORMAL	"\033[0m"
+-#define BOLD	"\033[1m"
+-#define CYAN	"\033[36m"
++#if AUTOBOOT_DISABLE_ANSI
++# define NORMAL
++# define BOLD
++# define CYAN
++#else
++# define NORMAL	"\033[0m"
++# define BOLD	"\033[1m"
++# define CYAN	"\033[36m"
++#endif
+ 
+ /** The "scriptlet" setting */
+ const struct setting scriptlet_setting __setting ( SETTING_MISC, scriptlet ) = {
+-- 
+2.36.1
+
