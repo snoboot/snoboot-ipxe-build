@@ -15,6 +15,7 @@ git submodule update
 ( cd ipxe ; ln -sf /usr/share/syslinux/isolinux.bin . )
 
 ln -sf ../../../../local-config.h ipxe/src/config/local/general.h
+ln -sf ../../../../local-config-nap.h ipxe/src/config/local/nap.h
 
 (
 cd trust
