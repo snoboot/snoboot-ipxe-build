@@ -1,9 +1,26 @@
 #!ipxe
 
+echo Platform: ${platform}
+echo Manufacturer: ${manufacturer}
+echo Product: ${product}
+echo CPU Vendor: ${cpuvendor}
+echo CPU Model: ${cpumodel}
+echo Arch: ${buildarch}
+echo MAC: ${mac}
+echo Serial: ${serial}
+echo Asset Tag: ${asset}
+echo UUID: ${uuid}
+
+prompt --key s --timeout 1000 Press 's' now to enter a debug shell || goto iflinkwait
+shell
+
+:iflinkwait
+iflinkwait || reboot
+
 :retry_ifconf
 ifconf || goto retry_ifconf
 
 # Important for devices without RTC; otherwise SSL will not work
 ntp pool.ntp.org
 
-chain http://192.168.1.11/ipxe/boot.ipxe
+chain http://pogo1/ipxe/boot.ipxe
