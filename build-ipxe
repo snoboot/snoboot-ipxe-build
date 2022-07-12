@@ -24,7 +24,7 @@ case "$machineType" in
     ;;
   aarch64)
     bin=bin-arm64-efi
-    buildUsb=1
+    #buildUsb=1
     ;;
   *)
     echo "Unknown machine type: $machineType" >&2
