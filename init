@@ -9,8 +9,10 @@ sudo apk add \
 	bash cdrkit mtools
 sudo apk add syslinux >/dev/null 2>&1
 
-git submodule init
-git submodule update
+if [[ "$1" != "-U" ]]; then
+  git submodule init
+  git submodule update
+fi
 
 ( cd ipxe ; ln -sf /usr/share/syslinux/isolinux.bin . )
 
@@ -24,7 +26,9 @@ wget -O alpine-netboot-ca.crt https://git.alpinelinux.org/aports/plain/main/alpi
 wget -O DST_Root_CA_X3.pem https://git.alpinelinux.org/aports/plain/main/alpine-ipxe/DST_Root_CA_X3.pem
 )
 
+if [[ "$1" != "-U" ]]; then
 (
 cd ipxe
 git am --signoff ../patches/ipxe/*.patch
 )
+fi
