@@ -40,6 +40,8 @@ wget -O DST_Root_CA_X3.pem https://git.alpinelinux.org/aports/plain/main/alpine-
 if [[ "$1" != "-U" ]]; then
 (
 cd ipxe
-git am --signoff ../patches/ipxe/*.patch
+for f in ../patches/ipxe/*.patch; do
+  git am --resolvemsg "[init] Probably this patch has been merged already" --empty drop --signoff "$f" || git am --skip
+done
 )
 fi
