@@ -16,8 +16,19 @@ fi
 
 ( cd ipxe ; ln -sf /usr/share/syslinux/isolinux.bin . )
 
+machineType=$(uname -m)
+
 ln -sf ../../../../local-config.h ipxe/src/config/local/general.h
-ln -sf ../../../../local-config-nap.h ipxe/src/config/local/nap.h
+case "$machineType" in
+  x86_64)
+    ;;
+  aarch64)
+    ln -sf ../../../../local-config-nap-null.h ipxe/src/config/local/nap.h
+    ;;
+  *)
+    echo "Unknown machine type: $machineType" >&2
+    exit 1
+esac
 
 (
 cd trust
