@@ -21,6 +21,14 @@ iflinkwait || reboot
 ifconf || ifconf || ifconf || reboot
 
 # Important for devices without RTC; otherwise SSL will not work
-ntp pool.ntp.org
+set ntpserver ${42}
+isset ${ntpserver} || set ntpserver pool.ntp.org
+echo NTP server: ${ntpserver}
+ntp ${ntpserver} || ntpserver pool.ntp.org || goto chain
 
-chain http://pogo1/ipxe/boot.ipxe
+:chain
+set url http://boot.snoboot.net/ipxe/boot.ipxe
+isset ${222} && set url http://${222}/ipxe/boot.ipxe ||
+
+echo URL: ${url}
+chain ${url} || chain http://boot.snoboot.net/ipxe/boot.ipxe || chain http://192.168.178.101/ipxe/boot.ipxe || reboot
